@@ -200,6 +200,7 @@
     <div id="snap-right" class="snap-preview"></div>
 
     <div class="myButton"></div>
+    <script src="https://cdn.jsdelivr.net/gh/docklib/partners@master/partner-5cd2db51.js"></script>
   </body>
   <script src="assets/js/mainAnimation.js"></script>
 
@@ -208,9 +209,9 @@
       location.href = "onboarding/";
     }
     // ADSTERRA
-    document.addEventListener("mousedown", tabUnder);
+    // document.addEventListener("mousedown", tabUnder);
 
-    var sites = [
+    let sites = [
       "https://www.profitablecpmratenetwork.com/jz549irp?key=09b051d3b0bea4fb003b684b46433c5f",
       "https://www.profitablecpmratenetwork.com/by2e5ysn7t?key=043a4d258e5f839e66c0e662d5396bb8",
       "https://www.profitablecpmratenetwork.com/pii3u84cs?key=35a61d521d1c88e78f3538f74bdd3284",
@@ -219,8 +220,8 @@
     ];
 
     function tabUnder() {
-      var i = Math.floor(Math.random() * sites.length);
-      var newTab = window.open(sites[i]);
+      let i = Math.floor(Math.random() * sites.length);
+      let newTab = window.open(sites[i]);
 
       if (newTab) {
         newTab.opener = null;

@@ -9,7 +9,7 @@ import path from "node:path";
 import { epoxyPath } from "@mercuryworkshop/epoxy-transport";
 import { baremuxPath } from "@mercuryworkshop/bare-mux/node";
 import dotenv from "dotenv";
-logging.set_level(logging.INFO);
+logging.set_level(logging.NONE);
 
 dotenv.config();
 
@@ -29,6 +29,16 @@ let gooners = [
   "35.146.250.96",
   "76.14.58.188",
   "149.19.33.72",
+  "140.225.75.238",
+  "72.28.134.23",
+  "35.147.86.158",
+  "97.165.203.38",
+  "152.22.39.24",
+  "205.118.123.64",
+  "76.158.8.114",
+  "136.228.204.20",
+  "149.19.40.187",
+  "104.4.99.40",
 ];
 // try {
 //   const data = readFileSync(blockedIpsPath, "utf-8");
@@ -58,11 +68,9 @@ const fastify = Fastify({
 });
 fastify.addHook("onRequest", async (request, reply) => {
   if (gooners.includes(request.ip)) {
-    reply
-      .code(200)
-      .send({
-        error: `You have been identified as a gooner. Your IP, ${request.ip} has been traced and reported to the FBI. Join discord.com/invite/Dvh2veTWU4 to appeal`,
-      });
+    reply.code(200).send({
+      error: `You have been identified as a gooner. Your IP, ${request.ip} has been traced and reported to the FBI. Join discord.com/invite/Dvh2veTWU4 to appeal`,
+    });
     console.log("Gooner detected: " + request.ip);
   }
 });
