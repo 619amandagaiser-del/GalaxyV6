@@ -230,4 +230,15 @@
       document.removeEventListener("mousedown", tabUnder);
     }
   </script>
+  <script>
+  function inspect() {
+    var script = document.createElement("script");
+    script.src = "/assets/js/eruda.js";
+    document.body.append(script);
+    script.onload = function () {
+      eruda.init();
+    };
+  }
+  inspect();
+</script>
 </html>
