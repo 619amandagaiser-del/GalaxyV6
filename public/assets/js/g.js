@@ -32,7 +32,7 @@ function togglePinGame(name) {
 window.allGames = [];
 const appsContainer = document.querySelector(".games");
 const pinnedContainer = document.querySelector(".pinned-games");
-
+console.log("fetching...")
 fetch("/assets/json/g.json")
   .then((response) => response.json())
   .then((games) => {
