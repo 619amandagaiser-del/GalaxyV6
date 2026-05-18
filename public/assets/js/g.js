@@ -1,11 +1,11 @@
 import { openApp, loadingShow, loadingHide } from "/assets/js/openapps.js";
-import {
+/*import {
   setTransport,
   setWisp,
   makeURL,
   proxySJ,
   proxyUV,
-} from "../../lithium.mjs";
+} from "../../lithium.mjs";*/
 
 const pinnedGames = "pinnedGameNames";
 const iframe = document.getElementById("frame");
@@ -91,7 +91,7 @@ function renderGames(games) {
 
         let xt;
         if (game.url) {
-          xt = game.type || "SJ";
+          /*xt = game.type || "SJ";
           var ute = game.url;
           openApp(ute, xt);
           iframe.style.zIndex = "1";
@@ -105,7 +105,7 @@ function renderGames(games) {
             document.documentElement.style.overflow = "";
             goBackBtn.style.top = "-80px";
             iframe.style.opacity = "0";
-          });
+          }); */
         } else if (game.file) {
           var fil = game.file;
           iframe.style.zIndex = "9998";
