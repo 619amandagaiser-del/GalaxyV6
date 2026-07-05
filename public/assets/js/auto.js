@@ -1,89 +1,87 @@
 function updateFavicon(href) {
-	if (!href) return;
-	let link = document.querySelector("link[rel~='icon']");
-	if (!link) {
-		link = document.createElement("link");
-		link.rel = "icon";
-		document.head.appendChild(link);
-	}
-	link.href = href;
+  if (!href) return;
+  let link = document.querySelector("link[rel~='icon']");
+  if (!link) {
+    link = document.createElement("link");
+    link.rel = "icon";
+    document.head.appendChild(link);
+  }
+  link.href = href;
 }
 function applyStoredValues() {
-	const savedTitle = localStorage.getItem("pageTitle");
-	if (savedTitle) document.title = savedTitle;
+  const savedTitle = localStorage.getItem("pageTitle");
+  if (savedTitle) document.title = savedTitle;
 
-	updateFavicon(localStorage.getItem("pageFavicon"));
+  updateFavicon(localStorage.getItem("pageFavicon"));
 
-	const backgroundURL = localStorage.getItem("backgroundURL");
-	if (backgroundURL) {
-		document.documentElement.style.setProperty(
-			"--backgroundURL",
-			`url(${backgroundURL})`
-		);
-	}
+  const backgroundURL = localStorage.getItem("backgroundURL");
+  if (backgroundURL) {
+    document.documentElement.style.setProperty(
+      "--backgroundURL",
+      `url(${backgroundURL})`,
+    );
+  }
 }
 
 function loadAntiClose() {
-	let xyz = localStorage.getItem("checkAntiClose");
-	if (xyz == "true") {
-		window.addEventListener("beforeunload", function(event) {
-			event.preventDefault();
-			event.returnValue =
-				"This maessage prevents teachers from closing the tab";
-		});
-		localStorage.setItem("checkAntiClose", "true");
-	} else {
-		localStorage.setItem("checkAntiClose", "false");
-	}
+  let xyz = localStorage.getItem("checkAntiClose");
+  if (xyz == "true") {
+    window.addEventListener("beforeunload", function (event) {
+      event.preventDefault();
+      event.returnValue =
+        "This maessage prevents teachers from closing the tab";
+    });
+    localStorage.setItem("checkAntiClose", "true");
+  } else {
+    localStorage.setItem("checkAntiClose", "false");
+  }
 }
 function updateName() {
-	let x = localStorage.getItem("name");
+  let x = localStorage.getItem("name");
 
-	document.querySelector(".userName").textContent = x;
+  document.querySelector(".userName").textContent = x;
 }
 
-
-
 function updateGlassmorphismDarkness() {
-	let opacityValue = localStorage.getItem("glassDarknessStore") || "0.432";
-	const newGlassmorphismBG = `rgba(14, 13, 13, ${opacityValue})`;
-	document.documentElement.style.setProperty(
-		"--glassmorphismBG",
-		newGlassmorphismBG
-	);
+  let opacityValue = localStorage.getItem("glassDarknessStore") || "0.432";
+  const newGlassmorphismBG = `rgba(14, 13, 13, ${opacityValue})`;
+  document.documentElement.style.setProperty(
+    "--glassmorphismBG",
+    newGlassmorphismBG,
+  );
 }
 
 window.addEventListener("storage", (event) => {
-	switch (event.key) {
-		case "pageTitle":
-			if (event.newValue) document.title = event.newValue;
-			break;
-		case "pageFavicon":
-			updateFavicon(event.newValue);
-			break;
-		case "backgroundURL":
-			document.documentElement.style.setProperty(
-				"--backgroundURL",
-				`url(${event.newValue})`
-			);
-			break;
-		case "glassDarknessStore":
-			updateGlassmorphismDarkness();
-			break;
-		case "checkAntiClose":
-			loadAntiClose();
-			break;
-		case "name":
-			updateName();
-			break;
-	}
+  switch (event.key) {
+    case "pageTitle":
+      if (event.newValue) document.title = event.newValue;
+      break;
+    case "pageFavicon":
+      updateFavicon(event.newValue);
+      break;
+    case "backgroundURL":
+      document.documentElement.style.setProperty(
+        "--backgroundURL",
+        `url(${event.newValue})`,
+      );
+      break;
+    case "glassDarknessStore":
+      updateGlassmorphismDarkness();
+      break;
+    case "checkAntiClose":
+      loadAntiClose();
+      break;
+    case "name":
+      updateName();
+      break;
+  }
 });
 
 document.addEventListener("DOMContentLoaded", applyStoredValues);
 document.addEventListener("DOMContentLoaded", updateGlassmorphismDarkness);
 const currentSiteUrl = window.location.origin;
 function launchBlob() {
-	const htmlContent = `
+  const htmlContent = `
     <html>
       <head>
             <title>Classroom</title>
@@ -114,18 +112,18 @@ function launchBlob() {
     </html>
 	`;
 
-	const blob = new Blob([htmlContent], {
-		type: "text/html",
-	});
+  const blob = new Blob([htmlContent], {
+    type: "text/html",
+  });
 
-	const blobUrl = URL.createObjectURL(blob);
+  const blobUrl = URL.createObjectURL(blob);
 
-	open(blobUrl);
+  open(blobUrl);
 }
 
 function aboutBlank() {
-	var y = window.open("about:blank");
-	y.document.write(`
+  var y = window.open("about:blank");
+  y.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
@@ -148,18 +146,18 @@ function aboutBlank() {
     </style>
       </html>
     `);
-	y.document.close();
+  y.document.close();
 }
 
 window.auto = () => {
-	if (localStorage.getItem("autoBlob") === "true") {
-		launchBlob();
-	}
+  if (localStorage.getItem("autoBlob") === "true") {
+    launchBlob();
+  }
 
-	if (localStorage.getItem("autoAbout") === "true") {
-		aboutBlank();
-		location.replace(
-			"https://lightingshovestature.com/tq5s28ueku?key=787c4f20eb8c6e759c73a4963748ab1c",
-		);
-	}
-}
+  if (localStorage.getItem("autoAbout") === "true") {
+    aboutBlank();
+    location.replace(
+      "https://lightingshovestature.com/tq5s28ueku?key=787c4f20eb8c6e759c73a4963748ab1c",
+    );
+  }
+};
