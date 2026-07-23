@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galaxy V6 - Web Proxy</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/gsap.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-section">
+                <h1 class="title">🌌 Galaxy V6</h1>
+                <p class="subtitle">Unrestricted Web Access Proxy</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Search/URL Input Section -->
+            <section class="search-section">
+                <div class="search-container">
+                    <input 
+                        type="text" 
+                        id="urlInput" 
+                        class="url-input" 
+                        placeholder="Enter URL or search term..."
+                        autocomplete="off"
+                    >
+                    <button id="proxyBtn" class="proxy-btn">Browse Anonymously</button>
+                </div>
+                <div id="searchSuggestions" class="suggestions"></div>
+            </section>
+
+            <!-- Status/Error Messages -->
+            <div id="statusMessage" class="status-message"></div>
+
+            <!-- Proxy Iframe Container -->
+            <section class="proxy-container">
+                <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Loading page...</p>
+                </div>
+                <iframe 
+                    id="proxyFrame" 
+                    class="proxy-frame" 
+                    title="Proxied Content"
+                    style="display: none;"
+                ></iframe>
+                <div id="contentArea" class="content-area">
+                    <div class="welcome-card">
+                        <h2>Welcome to Galaxy V6</h2>
+                        <p>Your gateway to unrestricted web browsing</p>
+                        <ul class="features">
+                            <li>🔒 Encrypted connections</li>
+                            <li>🌐 Global access</li>
+                            <li>⚡ Fast proxying</li>
+                            <li>🛡️ Privacy focused</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controls Panel -->
+            <section class="controls-panel">
+                <div class="control-group">
+                    <button id="reloadBtn" class="control-btn" title="Reload page">
+                        🔄 Reload
+                    </button>
+                    <button id="homeBtn" class="control-btn" title="Go to home">
+                        🏠 Home
+                    </button>
+                    <button id="clearBtn" class="control-btn" title="Clear history">
+                        🗑️ Clear
+                    </button>
+                </div>
+                <div class="control-group">
+                    <span id="connectionStatus" class="status-indicator">● Disconnected</span>
+                </div>
+            </section>
+
+            <!-- History Section -->
+            <section class="history-section">
+                <h3>Recent Visits</h3>
+                <div id="historyList" class="history-list"></div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Galaxy V6 - Web Proxy. Browse freely.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/app.js"></script>
+</body>
+</html>
