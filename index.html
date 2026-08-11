@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galaxy V6 - Dashboard & Web Proxy (Merged)</title>
+    <title>Galaxy V6 - Unified (Merged Sections)</title>
     <link rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/classroom/favicon.png" />
     <link rel="stylesheet" href="assets/styles/assets.css" />
     <link rel="stylesheet" href="assets/styles/style.css" />
@@ -13,6 +13,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.2/gsap.min.js"></script>
     <script src="/assets/js/gsap.js"></script>
     <meta name="admaven-placement" content="Bqjw5qTs5" />
+    <style>
+      /* small helper styles for section toggles */
+      .repo-section { display: none; }
+      .repo-section.active { display: block; }
+      #unifiedTools { transition: all .18s ease; }
+      @media (max-width:700px){ #unifiedTools{width:92%;right:4px;left:auto;bottom:12px} }
+    </style>
 </head>
 
 <body>
@@ -20,194 +27,98 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T9C6WKFHGD"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+        function gtag(){ dataLayer.push(arguments); }
         gtag("js", new Date());
-        gtag("config", "G-T9C6WKFHGD");
+        gtag("config","G-T9C6WKFHGD");
     </script>
 
-    <!-- Update Notification -->
-    <div class="update" id="update">
-        <h1>It looks like you're using an outdated version of Galaxy...</h1>
-        <h2>Update it by doing `Ctrl + Shift + R`</h2>
-    </div>
-
-    <!-- Top Navigation -->
+    <!-- Top Navigation (added quick links to switch sections) -->
     <div class="topNav">
-        <p class="nameVer" onclick="openWindow('left', 'updates.html', '0%', '35px', '60%', '26%')">
-            Gala<span class="filler">h</span>xyV6
-        </p>
+        <p class="nameVer" onclick="openWindow('left','updates.html','0%','35px','60%','26%')">Gala<span class="filler">h</span>xyV6</p>
         <p class="verticalDivider">|</p>
-        <p class="userName"></p>
-        <div class="middle"><p></p></div>
+        <nav style="display:inline-flex;gap:10px;align-items:center">
+          <button onclick="showSection('dashboard')" class="nav-btn">Dashboard</button>
+          <button onclick="showSection('public')" class="nav-btn">Public</button>
+          <button onclick="showSection('apps')" class="nav-btn">Apps</button>
+          <button onclick="showSection('proxy')" class="nav-btn">Proxy</button>
+        </nav>
         <div class="right">
-            <div class="bugReport" onclick="openWindow('right', 'link.html', '0%', '35px', '40%', '20%')">
-                <img title="Bug Report" src="assets/img/icons/link.png" class="report" />
-            </div>
-            <div class="bugReport" onclick="openWindow('right', 'report.html', '0%', '35px', '40%', '20%')">
-                <img title="Bug Report" src="assets/img/icons/bug-report.png" class="report" />
-            </div>
+            <div class="bugReport" onclick="openWindow('right','link.html','0%','35px','40%','20%')"><img title="Link" src="assets/img/icons/link.png" class="report"/></div>
+            <div class="bugReport" onclick="openWindow('right','report.html','0%','35px','40%','20%')"><img title="Bug Report" src="assets/img/icons/bug-report.png" class="report"/></div>
             <div id="timeDisplay" class="timeDisplay"></div>
         </div>
     </div>
 
-    <!-- Modal for Adding Apps -->
-    <div id="appModal" class="modal-overlay">
+    <!-- Original UI kept: Update notice, modal, options, container -->
+    <div class="update" id="update"><h1>It looks like you're using an outdated version of Galaxy...</h1><h2>Update it by doing `Ctrl + Shift + R`</h2></div>
+
+    <div id="appModal" class="modal-overlay"> <!-- modal unchanged -->
         <div class="modal-content" id="modal-content">
             <h2>Add New App</h2>
             <input type="text" id="appName" placeholder="App Name" />
             <input type="text" id="appIcon" placeholder="Icon URL (optional)" />
             <input type="text" id="appUrl" placeholder="App URL (e.g., https://...)" />
-            <div class="modal-actions">
-                <button onclick="closeModal()">Cancel</button>
-                <button class="primary" onclick="submitApp()">Create App</button>
-            </div>
+            <div class="modal-actions"><button onclick="closeModal()">Cancel</button><button class="primary" onclick="submitApp()">Create App</button></div>
         </div>
     </div>
 
-    <!-- Options Menu -->
-    <div class="options" id="options">
-        <div id="menuOptions" onclick="showApp()"><p>Add App</p></div>
-    </div>
+    <div class="options" id="options"><div id="menuOptions" onclick="showApp()"><p>Add App</p></div></div>
 
-    <!-- Main Container -->
     <div class="container">
-        <!-- Proxy Content Section (Initially Hidden) -->
-        <div id="proxySection" style="display: none;">
-            <header class="header">
-                <div class="logo-section">
-                    <h1 class="title">🌌 Galaxy V6 Proxy</h1>
-                    <p class="subtitle">Unrestricted Web Access</p>
-                </div>
-            </header>
-
+        <!-- proxySection kept as before but now has class repo-section -->
+        <div id="proxySection" class="repo-section">
+            <header class="header"><div class="logo-section"><h1 class="title">🌌 Galaxy V6 Proxy</h1><p class="subtitle">Unrestricted Web Access</p></div></header>
             <main class="main-content">
-                <!-- Search/URL Input Section -->
-                <section class="search-section">
-                    <div class="search-container">
-                        <input type="text" id="urlInput" class="url-input" placeholder="Enter URL or search term..." autocomplete="off">
-                        <button id="proxyBtn" class="proxy-btn">Browse Anonymously</button>
-                    </div>
-                    <div id="searchSuggestions" class="suggestions"></div>
-                </section>
-
-                <!-- Status/Error Messages -->
+                <section class="search-section"><div class="search-container"><input type="text" id="urlInput" class="url-input" placeholder="Enter URL or search term..." autocomplete="off"><button id="proxyBtn" class="proxy-btn">Browse Anonymously</button></div><div id="searchSuggestions" class="suggestions"></div></section>
                 <div id="statusMessage" class="status-message"></div>
-
-                <!-- Proxy Iframe Container -->
-                <section class="proxy-container">
-                    <div id="loadingSpinner" class="loading-spinner" style="display: none;">
-                        <div class="spinner"></div>
-                        <p>Loading page...</p>
-                    </div>
-                    <iframe id="proxyFrame" class="proxy-frame" title="Proxied Content" style="display: none;"></iframe>
-                    <div id="contentArea" class="content-area">
-                        <div class="welcome-card">
-                            <h2>Welcome to Galaxy V6 Proxy</h2>
-                            <p>Your gateway to unrestricted web browsing</p>
-                            <ul class="features">
-                                <li>🔒 Encrypted connections</li>
-                                <li>🌐 Global access</li>
-                                <li>⚡ Fast proxying</li>
-                                <li>🛡️ Privacy focused</li>
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Controls Panel -->
-                <section class="controls-panel">
-                    <div class="control-group">
-                        <button id="reloadBtn" class="control-btn" title="Reload page">🔄 Reload</button>
-                        <button id="homeBtn" class="control-btn" title="Go to home">🏠 Home</button>
-                        <button id="clearBtn" class="control-btn" title="Clear history">🗑️ Clear</button>
-                    </div>
-                    <div class="control-group"><span id="connectionStatus" class="status-indicator">● Disconnected</span></div>
-                </section>
-
-                <!-- History Section -->
-                <section class="history-section">
-                    <h3>Recent Visits</h3>
-                    <div id="historyList" class="history-list"></div>
-                </section>
+                <section class="proxy-container"><div id="loadingSpinner" class="loading-spinner" style="display:none;"><div class="spinner"></div><p>Loading page...</p></div><iframe id="proxyFrame" class="proxy-frame" title="Proxied Content" style="display:none;"></iframe><div id="contentArea" class="content-area"><div class="welcome-card"><h2>Welcome to Galaxy V6 Proxy</h2><p>Your gateway to unrestricted web browsing</p><ul class="features"><li>🔒 Encrypted connections</li><li>🌐 Global access</li><li>⚡ Fast proxying</li><li>🛡️ Privacy focused</li></ul></div></div></section>
+                <section class="controls-panel"><div class="control-group"><button id="reloadBtn" class="control-btn" title="Reload page">🔄 Reload</button><button id="homeBtn" class="control-btn" title="Go to home">🏠 Home</button><button id="clearBtn" class="control-btn" title="Clear history">🗑️ Clear</button></div><div class="control-group"><span id="connectionStatus" class="status-indicator">● Disconnected</span></div></section>
+                <section class="history-section"><h3>Recent Visits</h3><div id="historyList" class="history-list"></div></section>
             </main>
-
-            <!-- Footer -->
             <footer class="footer"><p>&copy; 2024 Galaxy V6 - Web Proxy. Browse freely.</p></footer>
         </div>
 
-        <!-- Dashboard Content Section -->
-        <div id="dashboardSection">
-            <!-- Side Navigation -->
+        <!-- Dashboard kept and marked as repo-section active by default -->
+        <div id="dashboardSection" class="repo-section active">
             <div class="nav" id="nav">
-                <div id="browserBtn1" class="navItems navStagger" onclick="openWindow('', 'p.html')">
-                    <img title="Browser" src="assets/img/icons/browser.png" class="icons" />
-                </div>
-                <div class="navItems navStagger" onclick="openWindow('', 'g/index.html', '0%', '0%', 'calc(100% - 51px)', '99.999%')">
-                    <img title="Games" src="assets/img/icons/controller.png" class="icons" />
-                </div>
-                <div class="navItems navStagger" onclick="toggleAppsView()">
-                    <img title="Apps" src="assets/img/icons/apps.png" class="icons" />
-                </div>
-                <div class="navItems navStagger" onclick="openWindow('', '/scramjet/https%3A%2F%2Ftinyurl.com%2Fsd2fsdvxc34w')">
-                    <img title="GeForce" src="assets/img/icons/nvidia.png" class="icons" />
-                </div>
-                <div class="navItems navStagger" onclick="openWindow('', 'app.html', '', '', '', ''); localStorage.setItem('storeAppURL', 'xz'); localStorage.setItem('tempProxy', 'UV');">
-                    <img title="Roblox" src="assets/img/icons/boblox.png" class="icons" />
-                </div>
-                <div class="navItems navStagger" onclick="openWindow('', 'app.html', '', '', '', ''); localStorage.setItem('storeAppURL', 'https://shorturl.at/IG5Dl'); localStorage.setItem('tempProxy', 'UV');">
-                    <img title="Discord" src="assets/img/icons/discord.png" class="icons" />
-                </div>
-                <div class="navItems navStagger" onclick="openWindow('', 'settings/index.html', '0', '0', 'calc(100% - 51px)', '99.999%')">
-                    <img title="Settings" src="assets/img/icons/settings.png" class="icons" />
-                </div>
+                <div id="browserBtn1" class="navItems navStagger" onclick="openWindow('','p.html')"><img title="Browser" src="assets/img/icons/browser.png" class="icons"/></div>
+                <div class="navItems navStagger" onclick="openWindow('','g/index.html','0%','0%','calc(100% - 51px)','99.999%')"><img title="Games" src="assets/img/icons/controller.png" class="icons"/></div>
+                <div class="navItems navStagger" onclick="toggleAppsView()"><img title="Apps" src="assets/img/icons/apps.png" class="icons"/></div>
+                <div class="navItems navStagger" onclick="openWindow('','/scramjet/https%3A%2F%2Ftinyurl.com%2Fsd2fsdvxc34w')"><img title="GeForce" src="assets/img/icons/nvidia.png" class="icons"/></div>
+                <div class="navItems navStagger" onclick="openWindow('','app.html','','','',''); localStorage.setItem('storeAppURL','xz'); localStorage.setItem('tempProxy','UV');"><img title="Roblox" src="assets/img/icons/boblox.png" class="icons"/></div>
+                <div class="navItems navStagger" onclick="openWindow('','app.html','','','',''); localStorage.setItem('storeAppURL','https://shorturl.at/IG5Dl'); localStorage.setItem('tempProxy','UV');"><img title="Discord" src="assets/img/icons/discord.png" class="icons"/></div>
+                <div class="navItems navStagger" onclick="openWindow('','settings/index.html','0','0','calc(100% - 51px)','99.999%')"><img title="Settings" src="assets/img/icons/settings.png" class="icons"/></div>
                 <div id="minimizedContainer"></div>
             </div>
-
-            <!-- Snap Previews -->
             <div id="snap-left" class="snap-preview"></div>
             <div id="snap-right" class="snap-preview"></div>
-
-            <!-- Apps Gallery (Initially Hidden) -->
-            <div id="appsGallery" style="display: none;">
-                <div id="goBackBtn" title="Go Back" onclick="toggleAppsView()">⬅</div>
-                <div class="gamebody">
-                    <div class="gamefilters">
-                        <input type="text" id="gamesearch" class="gamesearch" placeholder="Search Apps or Tags" />
-                        <div class="genre-filters">
-                            <label><input type="checkbox" class="genre-filter" value="AI" /><div class="checkbox_highlight"><a>AI</a></div></label>
-                            <label><input type="checkbox" class="genre-filter" value="shopping" /><div class="checkbox_highlight"><a>Shopping</a></div></label>
-                            <label><input type="checkbox" class="genre-filter" value="streaming" /><div class="checkbox_highlight"><a>Streaming</a></div></label>
-                            <label><input type="checkbox" class="genre-filter" value="cloud gaming" /><div class="checkbox_highlight"><a>Cloud Gami<span class="filler">ng</span></a></div></label>
-                            <label><input type="checkbox" class="genre-filter" value="development" /><div class="checkbox_highlight"><a>Development</a></div></label>
-                            <label><input type="checkbox" class="genre-filter" value="social media" /><div class="checkbox_highlight"><a>Social Media</a></div></label>
-                            <label><input type="checkbox" class="genre-filter" value="design" /><div class="checkbox_highlight"><a>Design</a></div></label>
-                            <label><input type="checkbox" class="genre-filter" value="other" /><div class="checkbox_highlight"><a>Other</a></div></label>
-                        </div>
-                    </div>
-                    <div class="games"></div>
-                </div>
-            </div>
+            <div id="appsGallery" style="display:none;"><div id="goBackBtn" title="Go Back" onclick="toggleAppsView()">⬅</div><div class="gamebody"><div class="gamefilters"><input type="text" id="gamesearch" class="gamesearch" placeholder="Search Apps or Tags"/><div class="genre-filters"><label><input type="checkbox" class="genre-filter" value="AI"/><div class="checkbox_highlight"><a>AI</a></div></label><label><input type="checkbox" class="genre-filter" value="shopping"/><div class="checkbox_highlight"><a>Shopping</a></div></label><label><input type="checkbox" class="genre-filter" value="streaming"/><div class="checkbox_highlight"><a>Streaming</a></div></label><label><input type="checkbox" class="genre-filter" value="cloud gaming"/><div class="checkbox_highlight"><a>Cloud Gami<span class="filler">ng</span></a></div></label><label><input type="checkbox" class="genre-filter" value="development"/><div class="checkbox_highlight"><a>Development</a></div></label><label><input type="checkbox" class="genre-filter" value="social media"/><div class="checkbox_highlight"><a>Social Media</a></div></label><label><input type="checkbox" class="genre-filter" value="design"/><div class="checkbox_highlight"><a>Design</a></div></label><label><input type="checkbox" class="genre-filter" value="other"/><div class="checkbox_highlight"><a>Other</a></div></label></div></div><div class="games"></div></div></div>
         </div>
+
+        <!-- New merged sections that embed other repo pages via iframes -->
+        <div id="publicSection" class="repo-section">
+            <header style="padding:12px;border-bottom:1px solid #eee"><strong>Public (embedded)</strong></header>
+            <div style="padding:12px"><iframe id="publicFrame" src="public/index.html" style="width:100%;height:780px;border:0" title="public"></iframe></div>
+        </div>
+
+        <div id="appsSection" class="repo-section">
+            <header style="padding:12px;border-bottom:1px solid #eee"><strong>Apps (embedded)</strong></header>
+            <div style="padding:12px"><iframe id="appsFrame" src="public/a/index.html" style="width:100%;height:780px;border:0" title="apps"></iframe></div>
+        </div>
+
     </div>
 
-    <!-- Unified Tools Panel (merged features: quick launcher + embedded preview) -->
+    <!-- Unified Tools (kept) -->
     <div id="unifiedTools" style="position:fixed;right:12px;bottom:12px;width:360px;max-width:calc(100% - 32px);background:#fff;border:1px solid #e6e6e6;padding:10px;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.08);z-index:9999;font-family:inherit">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-            <strong>Unified Tools</strong>
-            <div>
-                <button id="utMin" onclick="toggleUnifiedTools()" style="margin-left:8px;padding:4px 8px">Hide</button>
-            </div>
-        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between"><strong>Unified Tools</strong><div><button id="utMin" onclick="toggleUnifiedTools()" style="margin-left:8px;padding:4px 8px">Hide</button></div></div>
         <div id="utContent" style="margin-top:10px">
             <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px">
-                <button onclick="ut_openDashboard()">Dashboard</button>
-                <button onclick="ut_openProxy()">Proxy</button>
-                <button onclick="ut_openPublic()">Public</button>
-                <button onclick="ut_openApps()">Apps</button>
-                <button onclick="ut_openGames()">Games</button>
-                <button onclick="ut_openSettings()">Settings</button>
+                <button onclick="showSection('dashboard')">Dashboard</button>
+                <button onclick="showSection('proxy')">Proxy</button>
+                <button onclick="showSection('public')">Public</button>
+                <button onclick="showSection('apps')">Apps</button>
+                <button onclick="showSection('dashboard')">Back</button>
             </div>
-
             <div style="border-top:1px solid #f2f2f2;padding-top:8px">
                 <label style="display:block;font-size:13px;margin-bottom:6px">Embedded Preview</label>
                 <div style="display:flex;gap:6px;margin-bottom:6px">
@@ -217,15 +128,12 @@
                 <div style="height:220px;border:1px solid #eee">
                     <iframe id="utPreviewFrame" style="width:100%;height:100%;border:0" title="Unified preview"></iframe>
                 </div>
-                <div style="display:flex;justify-content:space-between;margin-top:6px">
-                    <small style="color:#666">Local pages and repo files work best</small>
-                    <button onclick="ut_resetPreview()">Reset</button>
-                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:6px"><small style="color:#666">Local pages and repo files work best</small><button onclick="ut_resetPreview()">Reset</button></div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Scripts (existing + new section-switching logic) -->
     <script defer type="module" src="assets/js/mainAnimation.js"></script>
     <script onload="auto()" defer src="assets/js/auto.js"></script>
     <script type="module" defer src="assets/js/search.js"></script>
@@ -236,79 +144,43 @@
     <script src="/app.js"></script>
 
     <script>
-        // Check onboarding status
+        // onboarding check (unchanged)
         if (localStorage.getItem("onboarding") == null) { location.href = "onboarding/"; }
 
-        // Toggle between dashboard and apps view
-        function toggleAppsView() {
-            const appsGallery = document.getElementById('appsGallery');
-            appsGallery.style.display = appsGallery.style.display === 'none' ? 'block' : 'none';
+        // Utility: show only one repo-section at a time
+        function showSection(name){
+            const sections = document.querySelectorAll('.repo-section');
+            sections.forEach(s => s.classList.remove('active'));
+            switch(name){
+                case 'dashboard': document.getElementById('dashboardSection').classList.add('active'); break;
+                case 'proxy': document.getElementById('proxySection').classList.add('active'); break;
+                case 'public': document.getElementById('publicSection').classList.add('active'); break;
+                case 'apps': document.getElementById('appsSection').classList.add('active'); break;
+                default: document.getElementById('dashboardSection').classList.add('active');
+            }
+            // scroll to top for better UX
+            window.scrollTo({top:0,behavior:'smooth'});
         }
 
-        // Modal functions
-        function closeModal() { document.getElementById('appModal').style.display = 'none'; }
-        function showApp() { document.getElementById('appModal').style.display = 'flex'; }
-        function submitApp() {
-            const name = document.getElementById('appName').value;
-            const icon = document.getElementById('appIcon').value;
-            const url = document.getElementById('appUrl').value;
-            if (name && url) { console.log('App created:', { name, icon, url }); closeModal(); }
-        }
+        // Keep existing behaviors
+        function toggleAppsView(){ const appsGallery = document.getElementById('appsGallery'); appsGallery.style.display = appsGallery.style.display === 'none'? 'block':'none'; }
+        function closeModal(){ document.getElementById('appModal').style.display = 'none'; }
+        function showApp(){ document.getElementById('appModal').style.display = 'flex'; }
+        function submitApp(){ const name=document.getElementById('appName').value; const icon=document.getElementById('appIcon').value; const url=document.getElementById('appUrl').value; if(name && url){ console.log('App created:',{name,icon,url}); closeModal(); } }
 
-        // Inspect function
-        function inspect() {
-            var script = document.createElement("script");
-            script.src = "/assets/js/eruda.js";
-            document.body.append(script);
-            script.onload = function () { eruda.init(); };
-        }
+        // inspector loader
+        function inspect(){ if(window.eruda) return; var script=document.createElement('script'); script.src='/assets/js/eruda.js'; document.body.appendChild(script); script.onload=function(){ if(window.eruda) eruda.init(); }; }
         inspect();
 
-        // ===== Unified Tools functions (namespaced with ut_ to avoid collisions) =====
-        function toggleUnifiedTools(){
-            const el = document.getElementById('unifiedTools');
-            const content = document.getElementById('utContent');
-            if(!el) return;
-            if(content.style.display === 'none'){
-                content.style.display = '';
-                document.getElementById('utMin').textContent = 'Hide';
-            } else {
-                content.style.display = 'none';
-                document.getElementById('utMin').textContent = 'Show';
-            }
-        }
+        // Unified Tools helpers
+        function toggleUnifiedTools(){ const el=document.getElementById('utContent'); const btn=document.getElementById('utMin'); if(!el) return; if(el.style.display==='none'){ el.style.display=''; btn.textContent='Hide'; } else { el.style.display='none'; btn.textContent='Show'; } }
+        function ut_loadPreview(){ const input=document.getElementById('utPreviewUrl').value.trim(); const frame=document.getElementById('utPreviewFrame'); if(!input){ alert('Enter a path like public/index.html'); return; } frame.src=input; }
+        function ut_resetPreview(){ document.getElementById('utPreviewFrame').src=''; document.getElementById('utPreviewUrl').value=''; }
+        (function(){ const f=document.getElementById('utPreviewFrame'); if(f){ f.src='public/index.html'; document.getElementById('utPreviewUrl').value='public/index.html'; } })();
 
-        function ut_openDashboard(){ window.scrollTo({top:0,behavior:'smooth'}); }
-        function ut_openProxy(){ document.getElementById('proxySection').style.display = ''; document.getElementById('dashboardSection').style.display = 'none'; }
-        function ut_openPublic(){ window.location.href = 'public/index.html'; }
-        function ut_openApps(){ window.location.href = 'public/a/index.html'; }
-        function ut_openGames(){ window.location.href = 'public/g/index.html'; }
-        function ut_openSettings(){ window.location.href = 'settings/index.html'; }
-
-        function ut_loadPreview(){
-            const input = document.getElementById('utPreviewUrl').value.trim();
-            const frame = document.getElementById('utPreviewFrame');
-            if(!input){ alert('Enter a path like public/index.html'); return; }
-            frame.src = input;
-        }
-        function ut_resetPreview(){ document.getElementById('utPreviewFrame').src = ''; document.getElementById('utPreviewUrl').value = ''; }
-
-        (function(){
-            const frame = document.getElementById('utPreviewFrame');
-            if(frame){ frame.src = 'public/index.html'; document.getElementById('utPreviewUrl').value = 'public/index.html'; }
-        })();
-
-        // Keep existing tab-under code (commented)
-        let sites = [
-            "https://www.profitablecpmratenetwork.com/jz549irp?key=09b051d3b0bea4fb003b684b46433c5f",
-            "https://www.profitablecpmratenetwork.com/by2e5ysn7t?key=043a4d258e5f839e66c0e662d5396bb8",
-            "https://www.profitablecpmratenetwork.com/pii3u84cs?key=35a61d521d1c88e78f3538f74bdd3284",
-            "https://www.profitablecpmratenetwork.com/f1zmi6zf?key=901275d9f62f7301737099fa0bc51b39",
-            "https://www.profitablecpmratenetwork.com/supd5z4wc0?key=0ea7e12fbd0b1014e46524caf42601a1",
-        ];
-        function tabUnder(){ let i = Math.floor(Math.random() * sites.length); let newTab = window.open(sites[i]); if(newTab){ newTab.opener = null; } document.removeEventListener("mousedown", tabUnder); }
+        // Set initial visible section to dashboard
+        showSection('dashboard');
 
     </script>
-    
 </body>
 </html>
